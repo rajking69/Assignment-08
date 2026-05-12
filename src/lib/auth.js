@@ -23,6 +23,9 @@ if (!globalForMongo._mongoClientPromise) {
 
 const db = client.db("RecipeVault");
 
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
 export const auth = betterAuth({
   secret,
   baseURL: process.env.BETTER_AUTH_URL,
@@ -31,9 +34,19 @@ export const auth = betterAuth({
     client,
     transaction: false
   }),
-  emailAndPassword: { 
-    enabled: true, 
-  }, 
+  emailAndPassword: {
+    enabled: true,
+  },
+  ...(googleClientId && googleClientSecret
+    ? {
+        socialProviders: {
+          google: {
+            clientId: googleClientId,
+            clientSecret: googleClientSecret,
+          },
+        },
+      }
+    : {}),
 });
 
 export const getAuth = () => auth;
