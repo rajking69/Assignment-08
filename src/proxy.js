@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { getAuth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 /**
  * Server-side route guard. Anything matched below requires a valid session;
@@ -8,8 +8,6 @@ import { getAuth } from "@/lib/auth";
  * in `?callbackURL=` so we can return them after they sign in.
  */
 export async function proxy(request) {
-  const auth = getAuth();
-
   let session = null;
   try {
     session = await auth.api.getSession({ headers: await headers() });
