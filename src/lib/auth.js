@@ -26,9 +26,46 @@ const db = client.db("RecipeVault");
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
+function getBaseURL() {
+  const vercelProductionURL = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProductionURL) {
+    return `https://${vercelProductionURL}`;
+  }
+
+  const vercelURL = process.env.VERCEL_URL;
+  if (vercelURL) {
+    return `https://${vercelURL}`;
+  }
+
+  if (process.env.BETTER_AUTH_URL) {
+    return process.env.BETTER_AUTH_URL;
+  }
+}
+
+function getTrustedOrigins() {
+  const origins = new Set();
+
+  if (process.env.BETTER_AUTH_URL) {
+    origins.add(process.env.BETTER_AUTH_URL);
+  }
+
+  const vercelProductionURL = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProductionURL) {
+    origins.add(`https://${vercelProductionURL}`);
+  }
+
+  const vercelURL = process.env.VERCEL_URL;
+  if (vercelURL) {
+    origins.add(`https://${vercelURL}`);
+  }
+
+  return [...origins];
+}
+
 export const auth = betterAuth({
   secret,
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: getBaseURL(),
+  trustedOrigins: getTrustedOrigins(),
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client,
