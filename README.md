@@ -1,83 +1,206 @@
-# Recipe Vault
+# ReadVault
 
-A recipe discovery platform built with Next.js 16, React 19, Tailwind v4 and DaisyUI 5. Green-amber theme. Auth + MongoDB wired via Better Auth.
+A modern digital library and book discovery platform built with Next.js 16, React 19, Tailwind CSS v4, and DaisyUI 5. ReadVault enables users to explore, organize, and manage books through a secure, responsive, and user-friendly experience powered by Better Auth and MongoDB.
 
-## Stack
+## Live Demo
 
-- **Framework**: Next.js 16.2.4 (App Router) + React 19.2.4
-- **Auth**: Better Auth 1.6.9 (email/password + optional Google OAuth)
-- **Database**: MongoDB (`RecipeVault` db)
-- **Styling**: Tailwind v4 + DaisyUI 5 + Geist fonts
-- **UI bits**: Swiper, react-fast-marquee, react-icons, framer-motion / motion
-- **Forms / toasts**: react-hook-form, sonner
-- **Lang**: JavaScript (no TypeScript)
+🔗 https://assignment-08-blond.vercel.app/
 
-## Quick start
+## Repository
+
+🔗 https://github.com/rajking69/Assignment-08
+
+---
+
+## Features
+
+- Secure authentication with Better Auth
+- Optional Google OAuth sign-in
+- Browse and discover books through an intuitive interface
+- Advanced search and filtering functionality
+- Personalized user experience
+- MongoDB-powered data management
+- Responsive design for desktop and mobile devices
+- Smooth animations and modern UI components
+
+---
+
+## Tech Stack
+
+### Frontend
+- Next.js 16
+- React 19
+- Tailwind CSS v4
+- DaisyUI 5
+- Framer Motion
+- React Icons
+
+### Authentication
+- Better Auth
+- Google OAuth
+
+### Database
+- MongoDB
+
+### Forms & Notifications
+- React Hook Form
+- Sonner
+
+### Language
+- JavaScript
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/rajking69/Assignment-08.git
+cd Assignment-08
+```
+
+Install dependencies:
 
 ```bash
 npm install
-cp .env.example .env.local
-# Fill in BETTER_AUTH_SECRET and MONGODB_URI (and optionally Google OAuth)
-npm run dev
-# http://localhost:3000
 ```
 
-### Required env vars
+Create a `.env.local` file:
 
-| Var | Required | Notes |
-|---|---|---|
-| `BETTER_AUTH_SECRET` | yes | `openssl rand -base64 32` |
-| `MONGODB_URI` | yes | Atlas or local mongod |
-| `BETTER_AUTH_URL` | dev: no | Set in prod to deployed origin |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | optional | Both must be set to enable Google sign-in |
+```env
+BETTER_AUTH_SECRET=your_secret_key
+MONGODB_URI=your_mongodb_connection_string
+BETTER_AUTH_URL=http://localhost:3000
 
-## Scripts
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
+
+Run the development server:
 
 ```bash
-npm run dev       # http://localhost:3000
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Available Scripts
+
+```bash
+npm run dev
 npm run build
 npm run start
 npm run lint
 ```
 
-## Structure
+---
 
-```
+## Project Structure
+
+```text
 src/
-├─ middleware.js                     protects /Profile (real auth check)
-├─ lib/
-│  ├─ auth.js                        Better Auth server singleton
-│  └─ auth-client.js                 Better Auth React client
-└─ app/
-   ├─ layout.js                      root: fonts, AppToaster, Footer
-   ├─ globals.css                    tailwind + daisyui
-   ├─ not-found.jsx
-   ├─ api/
-   │  ├─ auth/[...all]/route.js      Better Auth handler
-   │  └─ recipes/route.js            GET /api/recipes (reads data.json)
-   ├─ Components/                    Navbar, Footer, Banner, MarqueeData,
-   │                                 HomeHighlights, TopRecipes, TopChefs,
-   │                                 CookingTips, RecipesHero, RecipesCatalog,
-   │                                 AppToaster
-   ├─ (auth)/
-   │  ├─ layout.js
-   │  ├─ loading.jsx
-   │  ├─ Login/page.jsx              honors ?callbackURL=
-   │  └─ Registration/page.jsx       validates picture URL
-   └─ (main)/
-      ├─ layout.js                   Navbar wrapper
-      ├─ loading.jsx
-      ├─ page.jsx                    Banner + Marquee + HomeHighlights + Tips
-      ├─ Recipes/page.jsx            full catalog with search + category filter
-      ├─ RecipeDetails/[id]/page.jsx detail page (local data import)
-      └─ Profile/page.jsx            session-guarded, redirects on logout
+├── app/
+│   ├── api/
+│   ├── Components/
+│   ├── Login/
+│   ├── Registration/
+│   ├── Books/
+│   ├── BookDetails/
+│   └── Profile/
+│
+├── lib/
+│   ├── auth.js
+│   └── auth-client.js
+│
+├── middleware.js
+│
 public/
-└─ data.json                         20 seed recipes
 ```
 
-## Notes
+---
 
-- `middleware.js` has the correct filename (Next requires exactly `middleware.js`). Matcher protects `/Profile`.
-- `RecipeDetails` and `HomeHighlights` import `public/data.json` directly — no production-URL fetch loops in dev.
-- `next.config.mjs` lists `mongodb` in `serverExternalPackages` so `next build` doesn't try to bundle the native driver.
-- Auth fail with `MONGODB_URI is not set`? You forgot `.env.local`.
+## Authentication
+
+ReadVault uses Better Auth for secure authentication and session management.
+
+Supported login methods:
+
+- Email & Password Authentication
+- Google OAuth Authentication
+
+Protected routes are secured through middleware-based authentication.
+
+---
+
+## Key Functionalities
+
+### Book Discovery
+- Browse available books
+- View detailed book information
+- Explore curated collections
+
+### Search & Filtering
+- Search books by title
+- Filter books efficiently
+- Improved content discovery
+
+### User Experience
+- Personalized interactions
+- Responsive design
+- Modern animations and transitions
+
+### Data Management
+- MongoDB integration
+- Secure data storage
+- Efficient content handling
+
+---
+
+## Deployment
+
+### Vercel
+
+Build the application:
+
+```bash
+npm run build
+```
+
+Configure the required environment variables in the Vercel dashboard and deploy.
+
+### Production Notes
+
+- Set `BETTER_AUTH_URL` to your deployed domain.
+- Configure MongoDB Atlas connection string.
+- Enable Google OAuth credentials if social login is required.
+
+---
+
+## Tech Highlights
+
+- Next.js 16 App Router
+- React 19
+- Better Auth Authentication
+- MongoDB Integration
+- Tailwind CSS v4
+- DaisyUI 5
+- Responsive UI Design
+- Search & Filtering System
+- Framer Motion Animations
+
+---
+
+## Author
+
+**Sheikh Mohammad Rajking**
+
+- Portfolio: https://smrajking.vercel.app
+- GitHub: https://github.com/rajking69
+- LinkedIn: https://www.linkedin.com/in/sheikh-mohammad-rajking-a6a485413/
